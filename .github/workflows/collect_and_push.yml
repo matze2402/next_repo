@@ -31,7 +31,7 @@ jobs:
       - name: Push changes to 'second_repo'
         uses: ad-m/github-push-action@master
         with:
-           github_token: ${{ secrets.SECOND_TOKEN }}
+           github_token: ${{ secrets.NEXT_TOKEN }}
            branch: main  # Or specify a different branch if needed
 
        
