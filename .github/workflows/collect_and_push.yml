@@ -14,11 +14,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Clone 'second_repo'
-        run: git clone https://github.com/matze240/other_repo.git
+        run: git clone https://github.com/matze240/second_repo.git
         # Replace 'username' with the owner of the repository
 
-      - name: Copy 'data_new' folder
-        run: cp -r data_new second_repo/
+      - name: Copy 'files_new' folder
+        run: cp -r files_new second_repo/
 
       - name: Commit changes in 'second_repo'
         run: |
@@ -28,7 +28,7 @@ jobs:
           git add .
           git commit -m "Added 'data' folder from main branch"
       
-      - name: Push changes to 'other_repo'
+      - name: Push changes to 'second_repo'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.OTHER_TOKEN }}
@@ -37,18 +37,18 @@ jobs:
       - name: Checkout new_Branch
         run: git checkout -b new_Branch
 
-      - name: Copy 'files_new' folder from 'second_repo'
-        run: cp -r second_repo/files_new .
+      - name: Copy 'data_new' folder from 'second_repo'
+        run: cp -r second_repo/data_new .
 
       - name: Commit changes
         run: |
           git add .
           git config --global user.email "you@example.com"
           git config --global user.name "Matze2402"
-          git config --global url.https://${{ secrets.MY_TOKEN }}@github.com/.insteadOf https://github.com/
+          git config --global url.https://${{ secrets.MEIN_TOKEN }}@github.com/.insteadOf https://github.com/
           git commit -m "Moved 'data' folder to other_Branch and included 'files' folder from other_repo"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.MY_TOKEN }}
+          github_token: ${{ secrets.MEIN_TOKEN }}
