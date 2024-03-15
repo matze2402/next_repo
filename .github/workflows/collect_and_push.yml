@@ -45,10 +45,10 @@ jobs:
           git add .
           git config --global user.email "you@example.com"
           git config --global user.name "Matze2402"
-          git config --global url.https://${{ secrets.MEIN_TOKEN }}@github.com/.insteadOf https://github.com/
+          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
           git commit -m "Moved 'data' folder to other_Branch and included 'files' folder from other_repo"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.MEIN_TOKEN }}
+          github_token: ${{ secrets.NEXT_TOKEN }}
