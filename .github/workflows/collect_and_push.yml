@@ -64,8 +64,8 @@ jobs:
 
       - name: Copy folder to target repository
         run: |
-          cp -r files_new/* main_repo/temporary/things
-          cp -r data_new/* main_repo/temporary/things
+          cp -r files_new/* main_repo/things
+          cp -r data_new/* main_repo/things
           cd main_repo
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"
