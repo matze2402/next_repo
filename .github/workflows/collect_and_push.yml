@@ -8,48 +8,41 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-     - name: Checkout main branch
-          uses: actions/checkout@v2
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        
+      - name: Clone 'other_repo'
+        run: git clone https://github.com/matze240/second_repo.git
+        # Replace 'username' with the owner of the repository
 
-        - name: Clone 'other_repo'
-          run: git clone https://github.com/matze240/second_repo.git
-          # Replace 'username' with the owner of the repository
+      - name: Copy 'data' folder
+        run: cp -r files_new second_repo/
 
-        - name: Copy 'data' folder
-          run: cp -r files_new second_repo/
-
-        - name: Commit changes in 'second_repo'
-          run: |
-            cd second_repo
-            git config --local user.email "action@github.com"
-            git config --local user.name "matze240"
-            git add .
-            git commit -m "Added 'files_new' folder from main branch"
+      - name: Commit changes in 'second_repo'
+        run: |
+          cd second_repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze240"
+          git add .
+          git commit -m "Added 'files_new' folder from main branch"
+          git push origin main
       
-        - name: Push changes to 'second_repo'
-          uses: ad-m/github-push-action@master
-          with:
-            github_token: ${{ secrets.SECOND_TOKEN }}
-            branch: main  # Or specify a different branch if needed
+      - name: Checkout new_Branch
+        run: git checkout -b new_Branch main
   
-        - name: Checkout new_Branch
-          run: git checkout -b new_Branch
+      - name: Copy 'files' folder from 'other_repo'
+        run: cp -r second_repo/data_new .
   
-        - name: Copy 'files' folder from 'other_repo'
-          run: cp -r second_repo/data_new .
+      - name: Commit changes
+        run: |
+          git add .
+          git config --global user.email "you@example.com"
+          git config --global user.name "Matze2402"
+          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
+          git commit -m "Moved 'data' folder to other_Branch and included 'files' folder from other_repo"
   
-        - name: Commit changes
-          run: |
-            git add .
-            git config --global user.email "you@example.com"
-            git config --global user.name "Matze2402"
-            git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
-            git commit -m "Moved 'data' folder to other_Branch and included 'files' folder from other_repo"
-  
-        - name: Push changes
-          uses: ad-m/github-push-action@master
-          with:
-            github_token: ${{ secrets.NEXT_TOKEN }}
+      - name: Push changes
+        run: git push origin new_Branch
 
   job2:
     needs: job1
@@ -62,35 +55,14 @@ jobs:
         run: git clone https://github.com/matze2402/main_repo.git main_repo
         # Replace 'yourusername' with your GitHub username and 'target-repo' with the name of your target repository
 
-     
       - name: Copy folder to target repository
         run: |
           cp -r files_new/* main_repo/temporary/things
           cp -r data_new/* main_repo/temporary/things
-          cd next_repo
+          cd main_repo
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"
           git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
           git add .
           git commit -m "Copy files from source repository"
-          git push
-
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+          git push origin temporary
