@@ -1,0 +1,54 @@
+name: Move Data and Files
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  move_folders:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+
+      - name: Clone 'other_repo'
+        run: git clone https://github.com/matze240/second_repo.git
+        # Replace 'username' with the owner of the repository
+
+      - name: Copy 'data' folder
+        run: cp -r files_new second_repo/
+
+      - name: Commit changes in 'second_repo'
+        run: |
+          cd second_repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze240"
+          git add .
+          git commit -m "Added 'files_new' folder from main branch"
+      
+      - name: Push changes to 'second_repo'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.SECOND_TOKEN }}
+          branch: main  # Or specify a different branch if needed
+
+      - name: Checkout new_Branch
+        run: git checkout -b new_Branch
+
+      - name: Copy 'files' folder from 'other_repo'
+        run: cp -r second_repo/data_new .
+
+      - name: Commit changes
+        run: |
+          git add .
+          git config --global user.email "you@example.com"
+          git config --global user.name "Matze2402"
+          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
+          git commit -m "Moved 'data' folder to other_Branch and included 'files' folder from other_repo"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.NEXT_TOKEN }}
