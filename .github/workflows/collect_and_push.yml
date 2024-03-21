@@ -60,8 +60,7 @@ jobs:
    needs: job1
    runs-on: ubuntu-latest
    steps:
-    - name: Clone target repository
-      run: git clone https://github.com/matze2402/temp_repo.git temp_repo
+    
 
     - name: Copy folders to target repository
       run: |
