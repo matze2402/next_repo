@@ -66,6 +66,7 @@ jobs:
 
       - name: Copy folders to target repository
         run: |
+          mkdir -p temp_repo/combined
           cp -r files_new/* temp_repo/combined
           cp -r data_new/* temp_repo/combined
 
