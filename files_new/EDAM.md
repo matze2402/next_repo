@@ -11,7 +11,7 @@
 | Full Name | EDAM - Bioscientific data analysis ontology |
 | Synonyms/Alternative Names | - |
 | Ontology Acronym | EDAM |
-| Creator(s) & Issuing Organisation | Melissa Black, Lucie Lamothe, Hager Eldakroury, Mads Kierkegaard, Ankita Priya, Anne Machinda, Uttam Singh Khanduja, Drashti Patoliya, Rashika Rathi, Tawah Peggy Che Nico, Gloria Umutesi, Claudia Blankenburg, Anita Op, Precious Chieke, Omodolapo Babatunde, Steve Laurie, Steffen Neumann, Veit Schw‰mmle, Ivan Kuzmin, Chris Hunter, Jonathan Karr, Jon Ison, Alban Gaignard, Bryan Brancotte, HervÈ MÈnager, Mat˙ö Kalaö  |
+| Creator(s) & Issuing Organisation | Melissa Black, Lucie Lamothe, Hager Eldakroury, Mads Kierkegaard, Ankita Priya, Anne Machinda, Uttam Singh Khanduja, Drashti Patoliya, Rashika Rathi, Tawah Peggy Che Nico, Gloria Umutesi, Claudia Blankenburg, Anita Op, Precious Chieke, Omodolapo Babatunde, Steve Laurie, Steffen Neumann, Veit Schw√§mmle, Ivan Kuzmin, Chris Hunter, Jonathan Karr, Jon Ison, Alban Gaignard, Bryan Brancotte, Herv√© M√©nager, Mat√∫≈° Kala≈°  |
 | Nature of Organisational Structure | Group of MaintainersMaintainer |
 
 ## References
@@ -74,4 +74,4 @@
 ## Comments
 
 An Ontology consisting of several Terms relevant for DANN and Enzymatic activity. Imports OBO Ontology terms and classes while not being alligned to an Ontology. Good representation for description of proteins and enzyme kinetics.
-EDAM is a domain ontology of data analysis and data management in bio- and other sciences, and science-based applications. It comprises concepts related to analysis, modelling, optimisation, and data life-cycle. 
+EDAM is a domain ontology of data analysis and data management in bio- and other sciences, and science-based applications. It comprises concepts related to analysis, modelling, optimisation, and data life-dcycle. 
