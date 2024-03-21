@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}/temp_repo/combined/
           cd ${{ github.workspace }}/next_repo
-          cp -r files_new/. ${{ github.workspace }}/next_repo/temp_repo/combined/
+            cp -r ${{ github.workspace }}/next_repo/files_new/. .
           rsync -avz ${{ github.workspace }}/next_repo/second_repo/data_new/. ${{ github.workspace }}/next_repo/temp_repo/combined/
 
       - name: Commit and push changes
