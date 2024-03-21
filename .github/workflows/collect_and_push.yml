@@ -22,6 +22,7 @@ jobs:
           cd second_repo
           git config --local user.email "action@github.com"
           git config --local user.name "matze240"
+          git config --global url.https://${{ secrets.second_token}}@github.com/.insteadOf https://github.com/
           git add .
           git commit -m "Added 'files_new' folder from main branch"
           git push origin main
