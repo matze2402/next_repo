@@ -1,55 +1,27 @@
-name: collect_and_push_and_transfer
+name: Copy Files On Push
+
 on:
   push:
     branches:
-      - main
+      - main  # oder den Namen Ihrer Hauptentwicklungsbranch
 
 jobs:
-  job1:
+  copy_files:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout main branch
+      - name: Checkout Repository
         uses: actions/checkout@v2
-      
-      - name: Clone 'other_repo'
-        run: git clone https://github.com/matze240/second_repo.git
-        # Replace 'username' with the owner of the repository
-
-      - name: Copy 'files_new' folder
-        run: cp -r files_new second_repo/
-
-      - name: Commit changes in 'second_repo'
+        
+      - name: Copy Files
         run: |
-          cd second_repo
-          git config --local user.email "action@github.com"
-          git config --local user.name "matze240"
-          git config --global url.https://${{ secrets.second_TOKEN }}@github.com/.insteadOf https://github.com/
-          git add .
-          git commit -m "Added 'files_new' folder from main branch"
-          git push origin main
-
-  job2:
-    needs: job1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout temp_repo
-        uses: actions/checkout@v2
-        with:
-          repository: matze2402/temp_repo
-          token: ${{ secrets.next_token }}
-
-      - name: Copy files to temp_repo
-        run: |
-          mkdir -p temp_repo/combined/
-          cp -r second_repo/files_new/. temp_repo/combined/
-          rsync -avz second_repo/data_new/. temp_repo/combined/
-
-      - name: Commit and push changes
-        run: |
-          cd temp_repo
-          git config --local user.email "action@github.com"
-          git config --local user.name "matze2402"
-          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
-          git add .
-          git commit -m "Copy files from source repository"
-          git push origin main
+          if [[ -n $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- files_new/) ]]; then
+            git clone https://github.com/matze240/second_repo.git second_repo_temp
+            cp -r second_repo_temp/data_new/* files_new/
+            rm -rf second_repo_temp
+            git add files_new/
+            git commit -m "Update files from second_repo"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.next_token }}
