@@ -24,4 +24,4 @@ jobs:
             git push
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.next_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
