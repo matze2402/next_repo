@@ -18,6 +18,9 @@ jobs:
           git clone https://github.com/matze240/second_repo.git second_repo_temp
           cp -r second_repo_temp/data_new/* files_new/
           rm -rf second_repo_temp
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze2402"  	#Dein Username in github
+          git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
           git add files_new/
           git commit -m "Update files from second_repo"
           git push origin main
