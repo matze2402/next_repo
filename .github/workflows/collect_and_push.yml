@@ -18,7 +18,7 @@ jobs:
           if [[ -n $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- files_new/) ]]; then
             git clone https://github.com/matze240/second_repo.git second_repo_temp
             cp -r second_repo_temp/data_new/* files_new/
-            rm -rf second_repo_temp
+           
             git add files_new/
             git commit -m "Update files from second_repo"
             git push
