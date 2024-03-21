@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: matze2402/temp_repo
-          token: ${{ secrets.admin }}
+          token: ${{ secrets.next_token }}
 
       - name: Copy files to temp_repo
         run: |
