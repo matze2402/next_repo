@@ -48,7 +48,7 @@ jobs:
            git config --global user.name "Matze2402"
            git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
            git commit -m "Copy files from source repository" || true
-           git push origin main
+           git push origin main || true
           fi
 
 
@@ -74,10 +74,10 @@ jobs:
         run: |
           cd combined || exit 1
           git init
-          git remote add origin https://github.com/matze2402/temp_repo.git
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"
           git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
           git add .
-          git commit -m "Copy files from source repository"
-          git push origin main
+          git commit -m "Copy files from source repository" || true
+          git remote add origin https://github.com/matze2402/temp_repo.git
+          git push --force -u origin main || true
