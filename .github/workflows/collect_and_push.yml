@@ -1,39 +1,53 @@
-name: transfer_files
+name: collect_and_push_and_transfer
 on:
   push:
     branches:
       - main
 
 jobs:
-  transfer_files:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v2
+      
+      - name: Clone 'other_repo'
+        run: git clone https://github.com/matze240/second_repo.git
 
-      - name: Clone second_repo
-        run: git clone https://github.com/matze240/second_repo.git temp_repo
+      - name: Copy 'data_new' folder
+        run: cp -r files_new second_repo/
 
-      - name: Create combined directory in temp_repo
-        run: mkdir -p temp_repo/combined
-
-      - name: Copy files from data_new to combined (overwrite)
-        run: rsync -av --ignore-existing temp_repo/data_new/. temp_repo/combined/
-
-      - name: Copy files from files_new to combined (skip if exists)
+      - name: Commit changes in 'second_repo'
         run: |
-          for file in files_new/*; do
-            if [[ ! -f temp_repo/combined/$(basename $file) ]]; then
-              cp $file temp_repo/combined/
-            fi
-          done
-
-      - name: Commit and push changes to temp_repo
-        run: |
-          cd temp_repo
+          cd second_repo
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
+          git config --local user.name "matze240"
           git add .
-          git commit -m "Transfer files from next_repo and second_repo"
+          git commit -m "Added 'files_new' folder from main branch"
+          git push origin main
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout temp_repo
+        uses: actions/checkout@v2
+        with:
+          repository: matze2402/temp_repo
+          token: ${{ secrets.NEXT_TOKEN }}
+
+      - name: Copy files to temp_repo
+        run: |
+          mkdir -p ${{ github.workspace }}/temp_repo/combined/
+          cp -r ${{ github.workspace }}/second_repo/files_new/. ${{ github.workspace }}/temp_repo/combined/
+          rsync -avz ${{ github.workspace }}/second_repo/data_new/. ${{ github.workspace }}/temp_repo/combined/
+
+      - name: Commit and push changes
+        run: |
+          cd ${{ github.workspace }}/temp_repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze2402"
+          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
+          git add .
+          git commit -m "Copy files from source repository"
           git push origin main
