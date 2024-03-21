@@ -15,7 +15,7 @@ jobs:
         run: git clone https://github.com/matze240/second_repo.git
         # Replace 'username' with the owner of the repository
 
-      - name: Copy 'data' folder
+      - name: Copy 'files_new' folder
         run: cp -r files_new second_repo/
 
       - name: Commit changes in 'second_repo'
@@ -35,7 +35,7 @@ jobs:
       - name: Checkout new_Branch
         run: git checkout -b new_Branch
 
-      - name: Copy 'files' folder from 'other_repo'
+      - name: Copy 'data_new' folder from 'other_repo'
         run: cp -r second_repo/data_new .
 
       - name: Commit changes
@@ -44,7 +44,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Matze2402"
           git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
-          git commit -m "Moved 'data' folder to other_Branch and included 'files' folder from other_repo"
+          git commit -m "Moved 'data_new' folder to new_Branch and included 'files_new' folder from second_repo"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
@@ -58,14 +58,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Clone target repository
-        run: git clone https://github.com/matze2402/temp_repo.git temp_repo
-        # Replace 'yourusername' with your GitHub username and 'target-repo' with the name of your target repository
-
-      - name: Copy folder to target repository
+      - name: Copy folders to target repository
         run: |
           cp -r files_new/* temp_repo/combined
           cp -r data_new/* temp_repo/combined
+
+      - name: Commit changes in target repository
+        run: |
           cd temp_repo
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"
