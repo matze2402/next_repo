@@ -12,11 +12,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Clone second_repo
-        run: git clone https://github.com/matze240/second_repo.git
+        run: git clone https://github.com/matze240/second_repo.git temp_repo
 
       - name: Copy files from data_new to combined (overwrite)
         run: |
-          rsync -av --ignore-existing second_repo/data_new/. combined/
+         rsync -av --ignore-existing temp_repo/data_new/. temp_repo/combined/
         working-directory: ./temp_repo
 
       - name: Copy files from files_new to combined (skip if exists)
