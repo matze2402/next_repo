@@ -11,12 +11,12 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
 
-      - name: Clone 'second_repo'
+      - name: Clone 'other_repo'
         run: git clone https://github.com/matze240/second_repo.git
         # Replace 'username' with the owner of the repository
 
       - name: Copy 'files_new' folder
-        run: cp -r files_new second_repo/data_new
+        run: cp -r files_new second_repo/
 
       - name: Commit changes in 'second_repo'
         run: |
@@ -35,11 +35,8 @@ jobs:
       - name: Checkout new_Branch
         run: git checkout -b new_Branch
 
-      - name: Copy files from 'second_repo' to 'files_new' folder
-        run: cp -r second_repo/files_new/ files_new
-
-      - name: Copy files from 'second_repo/data_new' to 'combined' folder
-        run: cp -r second_repo/data_new/* combined/
+      - name: Copy 'data_new' folder from 'second_repo'
+        run: cp -r second_repo/data_new .
 
       - name: Commit changes
         run: |
@@ -47,7 +44,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Matze2402"
           git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
-          git commit -m "Moved files from 'files_new' and 'data_new' folders to 'combined' folder"
+          git commit -m "Moved 'data_new' folder to other_Branch and included 'files_new' folder from other_repo"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
@@ -58,20 +55,24 @@ jobs:
     needs: job1
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout temp_repo
         uses: actions/checkout@v2
+        with:
+          repository: matze2402/temp_repo  # Replace with your repository URL
+          path: temp_repo  # Directory to check out the repository
 
-      - name: Clone target repository
-        run: git clone https://github.com/matze2402/next_repo.git temp_repo
-        # Replace 'yourusername' with your GitHub username and 'temp_repo' with the name of your target repository
-
-      - name: Copy 'combined' folder to target repository
+      - name: Copy files to temp_repo
         run: |
-          cp -r combined/* temp_repo/combined/  	# folder combined must already exist!
-          cd temp_repo
+          cp -r files_new/* temp_repo/combined/
+          rsync -avz second_repo/data_new/* temp_repo/combined/
+        working-directory: temp_repo
+
+      - name: Commit and push changes
+        run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "matze2402"  	# Your GitHub username
-          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
+          git config --local user.name "matze2402"
+          git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
           git add .
           git commit -m "Copy files from source repository"
-          git push origin main 				
+          git push origin main
+        working-directory: temp_repo
