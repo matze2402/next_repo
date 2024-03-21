@@ -20,7 +20,7 @@ jobs:
 
       - name: Commit changes in 'second_repo'
         run: |
-          cd second_repo || true
+          cd second_repo 2>/dev/null || true
           git config --local user.email "action@github.com"
           git config --local user.name "matze240"
           git add .
