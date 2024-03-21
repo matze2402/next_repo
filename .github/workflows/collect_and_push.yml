@@ -39,11 +39,18 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add .
-          git config --global user.email "you@example.com"
-          git config --global user.name "Matze2402"
-          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
-          git commit -m "Moved 'data_new' folder to new_Branch and included 'files_new' folder from second_repo"
+         cd temp_repo/combined || exit 1  # Exit with error if directory doesn't exist
+         if git status | grep -q "nothing to commit"; then
+         echo "No changes to commit."
+         else
+           git add .
+           git config --global user.email "you@example.com"
+           git config --global user.name "Matze2402"
+           git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
+           git commit -m "Copy files from source repository" || true
+           git push origin main
+          fi
+
 
       - name: Push changes
         uses: ad-m/github-push-action@master
