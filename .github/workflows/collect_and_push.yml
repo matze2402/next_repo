@@ -13,8 +13,9 @@ jobs:
       
       - name: Clone 'other_repo'
         run: git clone https://github.com/matze240/second_repo.git
+        # Replace 'username' with the owner of the repository
 
-      - name: Copy 'data_new' folder
+      - name: Copy 'files_new' folder
         run: cp -r files_new second_repo/
 
       - name: Commit changes in 'second_repo'
@@ -39,13 +40,13 @@ jobs:
 
       - name: Copy files to temp_repo
         run: |
-          mkdir -p ${{ github.workspace }}/temp_repo/combined/
-          cp -r ${{ github.workspace }}/second_repo/files_new/. ${{ github.workspace }}/temp_repo/combined/
-          rsync -avz ${{ github.workspace }}/second_repo/data_new/. ${{ github.workspace }}/temp_repo/combined/
+          mkdir -p temp_repo/combined/
+          cp -r second_repo/files_new/. temp_repo/combined/
+          rsync -avz second_repo/data_new/. temp_repo/combined/
 
       - name: Commit and push changes
         run: |
-          cd ${{ github.workspace }}/temp_repo
+          cd temp_repo
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"
           git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
