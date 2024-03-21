@@ -56,28 +56,33 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.NEXT_TOKEN }}
-
   job2:
-    needs: job1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+   needs: job1
+   runs-on: ubuntu-latest
+   steps:
+    - name: Clone target repository
+      run: git clone https://github.com/matze2402/temp_repo.git temp_repo
 
-      - name: Copy folders to target repository
-        run: |
-          mkdir -p combined
-          cp -r files_new/* combined
-          cp -r data_new/* combined
+    - name: Copy folders to target repository
+      run: |
+        mkdir -p temp_repo/combined
+        cp -r files_new/* temp_repo/combined
+        cp -r data_new/* temp_repo/combined
 
-      - name: Commit changes in target repository
-        run: |
-          cd combined || exit 1
-          git init
-          git config --local user.email "action@github.com"
-          git config --local user.name "matze2402"
-          git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
-          git add .
-          git commit -m "Copy files from source repository" || true
-          git remote add origin https://github.com/matze2402/temp_repo.git
-          git push --force -u origin main || true
+    - name: Change directory to target repository
+      run: cd temp_repo || exit 1
+
+    - name: Configure Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "matze2402"
+        git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
+
+    - name: Add changes
+      run: git add .
+
+    - name: Commit changes
+      run: git commit -m "Copy files from source repository"
+
+    - name: Push changes
+      run: git push origin main
