@@ -40,7 +40,7 @@ jobs:
       - name: Copy files to temp_repo
         run: |
           mkdir -p ${{ github.workspace }}/temp_repo/combined/
-          cp -r ${{ github.workspace }}/second_repo/files_new/. ${{ github.workspace }}/temp_repo/combined/
+          cp -r files_new/. ${{ github.workspace }}/temp_repo/combined/
           rsync -avz ${{ github.workspace }}/second_repo/data_new/. ${{ github.workspace }}/temp_repo/combined/
 
       - name: Commit and push changes
