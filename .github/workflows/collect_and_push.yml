@@ -11,19 +11,20 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
 
-      - name: Clone 'other_repo'
+      - name: Clone 'second_repo'
         run: git clone https://github.com/matze240/second_repo.git
         # Replace 'username' with the owner of the repository
 
       - name: Copy 'files_new' folder
-        run: cp -r files_new second_repo/
+        run: cp -r files_new second_repo/data_new
 
       - name: Commit changes in 'second_repo'
         run: |
-         git -C second_repo config --local user.email "action@github.com"
-         git -C second_repo config --local user.name "matze240"
-         git -C second_repo add .
-         git -C second_repo commit -m "Added 'files_new' folder from main branch" || true
+          cd second_repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze240"
+          git add .
+          git commit -m "Added 'files_new' folder from main branch"
       
       - name: Push changes to 'second_repo'
         uses: ad-m/github-push-action@master
@@ -34,54 +35,40 @@ jobs:
       - name: Checkout new_Branch
         run: git checkout -b new_Branch
 
-      - name: Copy 'data_new' folder from 'other_repo'
-        run: cp -r second_repo/data_new .
+      - name: Copy 'files_new' folder from 'second_repo'
+        run: cp -r second_repo/data_new files_new
 
       - name: Commit changes
         run: |
-         mkdir -p temp_repo/combined || exit 1  # Exit with error if directory doesn't exist
-         if git status | grep -q "nothing to commit"; then
-         echo "No changes to commit."
-         else
-           git add .
-           git config --global user.email "you@example.com"
-           git config --global user.name "Matze2402"
-           git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
-           git commit -m "Copy files from source repository" || true
-           git push origin main || true
-          fi
-
+          git add .
+          git config --global user.email "you@example.com"
+          git config --global user.name "Matze2402"
+          git config --global url.https://${{ secrets.NEXT_TOKEN }}@github.com/.insteadOf https://github.com/
+          git commit -m "Moved 'files_new' folder to new_Branch and included 'data_new' folder from second_repo"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.NEXT_TOKEN }}
+
   job2:
-   needs: job1
-   runs-on: ubuntu-latest
-   steps:
-    
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Copy folders to target repository
-      run: |
-        mkdir -p temp_repo/combined
-        cp -r files_new/* temp_repo/combined
-        cp -r data_new/* temp_repo/combined
+      - name: Clone target repository
+        run: git clone https://github.com/matze2402/next_repo.git temp_repo
+        # Replace 'yourusername' with your GitHub username and 'temp_repo' with the name of your target repository
 
-    - name: Change directory to target repository
-      run: cd temp_repo || exit 1
-
-    - name: Configure Git
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "matze2402"
-        git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
-
-    - name: Add changes
-      run: git add .
-
-    - name: Commit changes
-      run: git commit -m "Copy files from source repository"
-
-    - name: Push changes
-      run: git push origin main
+      - name: Copy folders to target repository
+        run: |
+          cp -r files_new/* temp_repo/combined  	# folder combined must already exist!
+          cp -r data_new/* temp_repo/combined		# folder combined must already exist!
+          cd temp_repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze2402"  	# Your GitHub username
+          git add .
+          git commit -m "Copy files from source repository"
+          git push origin main 				
