@@ -69,6 +69,7 @@ jobs:
           cd temp_repo
           git config --local user.email "action@github.com"
           git config --local user.name "matze2402"  	# Your GitHub username
+          git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
           git add .
           git commit -m "Copy files from source repository"
           git push origin main 				
