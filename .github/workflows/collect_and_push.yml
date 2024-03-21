@@ -14,22 +14,23 @@ jobs:
       - name: Clone second_repo
         run: git clone https://github.com/matze240/second_repo.git temp_repo
 
+      - name: Create combined directory in temp_repo
+        run: mkdir -p temp_repo/combined
+
       - name: Copy files from data_new to combined (overwrite)
-        run: |
-         rsync -av --ignore-existing temp_repo/data_new/. temp_repo/combined/
-        working-directory: ./temp_repo
+        run: rsync -av --ignore-existing temp_repo/data_new/. temp_repo/combined/
 
       - name: Copy files from files_new to combined (skip if exists)
         run: |
           for file in files_new/*; do
-            if [[ ! -f combined/$(basename $file) ]]; then
-              cp $file combined/
+            if [[ ! -f temp_repo/combined/$(basename $file) ]]; then
+              cp $file temp_repo/combined/
             fi
           done
-        working-directory: ./temp_repo
 
       - name: Commit and push changes to temp_repo
         run: |
+          cd temp_repo
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
