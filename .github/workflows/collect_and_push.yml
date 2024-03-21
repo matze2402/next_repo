@@ -39,7 +39,7 @@ jobs:
 
       - name: Commit changes
         run: |
-         cd temp_repo/combined || exit 1  # Exit with error if directory doesn't exist
+         mkdir -p temp_repo/combined || exit 1  # Exit with error if directory doesn't exist
          if git status | grep -q "nothing to commit"; then
          echo "No changes to commit."
          else
