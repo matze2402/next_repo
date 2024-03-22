@@ -21,4 +21,4 @@ jobs:
         with:
           token: ${{ secrets.next_token }}
           repository: Matze2402/next_repo
-          event-type: push
+          event-type: repo
