@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # oder den Namen Ihrer Hauptentwicklungsbranch
+    paths:
+      - 'files_new/*.md'
 
 jobs:
   copy_files:
@@ -26,3 +28,11 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dispatch trigger for parent
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.first }}
+          repository: Matze240/fremd_repo
+          event-type: parent
+
