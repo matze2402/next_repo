@@ -73,4 +73,4 @@
 
 ## Comments
 
-Not really usahble, not FAvIR
+Not really usahble, not FAIR
