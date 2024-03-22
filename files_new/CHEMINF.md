@@ -73,4 +73,4 @@
 
 ## Comments
 
-This Ontology has a lot of very specific classes and atributes allowing for a description of atmoic properties (like band gap), however due to the lack of conceptualisation a "bond dissociation Gibbs energetic descriptor" is just three classes away from its basicly central superclass 'chemical descriptor'. (this is a bit to simplified, since neither an enthalpy/entropy nor Gibbs energy is well separated, semantically and topologically differentiated)
+This Ontology has a lot of very specific classes and atributes allowing for a description of atmoic properties (like band gap), however due to the lack of conceptualisation a "bond dissociation Gibbs energetic descriptor" is just three classes away from its basicly central superclass 'chemical descriptor'. (this is a bit to simplified, since neither an enthalpy/entropy nor Gibbs energy is well separated, semantically and topologically differentiated) TEST
