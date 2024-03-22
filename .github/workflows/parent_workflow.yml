@@ -14,3 +14,11 @@ jobs:
           token: ${{ secrets.second_token }}  # Personal Access Token with repo scope
           repository: matze240/second_repo
           event-type: start-child-workflow
+
+      - name: Dispatch trigger for parent
+        
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.next_token }}
+          repository: Matze2402/next_repo
+          event-type: push
