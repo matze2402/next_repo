@@ -30,6 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Dispatch trigger for parent
+        if: always()
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.next_token }}
