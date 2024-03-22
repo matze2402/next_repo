@@ -1,0 +1,16 @@
+name: Parent Workflow
+
+on:
+ repository_dispatch:
+    types: [parent]
+
+jobs:
+  trigger-child-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Child Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.second_token }}  # Personal Access Token with repo scope
+          repository: matze240/second_repo
+          event-type: start-child-workflow
