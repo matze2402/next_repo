@@ -76,3 +76,4 @@
 Looks like not maintained anymore since 2009. Modular setup of subontologies in separate files and linkage to ontology files via C:/OntoCAPE/ as base instead of an actual URI makes it difficult to reason and to reuse.
 While it contains good ideas on process modeling (special focus on ASPEN), it does not fit to current standards (Top Level, IRIs pointing to local files, mutliple ontology module files instead of one large file containing the whole ontology...)
 Additionally, reasoning gets very complicated because of the modular setup of the sub-ontologies. [AB] was not yet able to run a reasoner (tried Fact++ and HermiT) without error. Even reasoning just the heat exchanger module produced non resolvable reasoning errors.
+TEST
