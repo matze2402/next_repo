@@ -74,4 +74,4 @@
 ## Comments
 
 An Ontology consisting of several Terms relevant for DANN and Enzymatic activity. Imports OBO Ontvology terms and classes while not being alligned to an Ontology. Good representation for description of proteins and enzyme kinetics.
-EDAM is a domain ontology of data analysis and data management in bio- and other sciences, and science-based applications. It comprises concepts related to analysis, modelling, optimisation, and data life-dcycle. 
+EDAM is a domain ontology of data analysis and data management in bio- and other sciences, and science-based applications. It comprises concepts related to analysis, modelling, optimisation, and data life-dcycle.  TEST
