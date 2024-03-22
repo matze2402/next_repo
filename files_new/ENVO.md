@@ -73,4 +73,4 @@
 
 ## Comments
 
-While it  sounds like the Ontology should describe Environemnts and its relations, such as 'Lake' 'canBePoisonedBy' 'CopperSalt' or 'Windturbine' 'generates('NoisePolution' 'some' 'dB')', it is more of a "biome-ontology", descriptions of local/abstract environments end a e.g. Wastefills.
+While it  sounds like the Ontology should describe Environemnts and its relations, such as 'Lake' 'canBePoisonedBy' 'CopperSalt' or 'Windturbine' 'generates('NoisePolution' 'some' 'dB')', it is more of a "biome-ontology", descriptions of local/abstract environments end a e.g. Wastefills. TEST
