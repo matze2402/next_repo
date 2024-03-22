@@ -73,4 +73,4 @@
 
 ## Comments
 
-Not really usable, not FAIR
+Not really usable, not FAIgR
