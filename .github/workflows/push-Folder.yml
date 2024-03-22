@@ -1,0 +1,31 @@
+name: Delete files and create empty folder
+
+on:
+ repository_dispatch:
+    types: [repo]
+
+jobs:
+  push-folder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Clone target repository
+        run: git clone https://github.com/matze2402/temp_repo.git temp_repo
+        # Replace 'yourusername' with your GitHub username and 'target-repo' with the name of your target repository
+
+     
+      - name: Copy folder to target repository
+        run: |
+          cp -r files_new/* temp_repo/combined
+          cd temp_repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "matze2402"
+          git config --global url.https://${{ secrets.next_token}}@github.com/.insteadOf https://github.com/
+          git add .
+          git commit -m "Copy files from source repository"
+          git push
+
+      
