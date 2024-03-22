@@ -73,5 +73,5 @@
 
 ## Comments
 
-Describes chemical biology screening assays and their results including high-throughput screening (HTS) data for the purpose of categorizing assays and data analysis.
+Describes chemical biology screening assays and thgeir results including high-throughput screening (HTS) data for the purpose of categorizing assays and data analysis.
 Quite applied and in active development, see also here: http://bioassayontology.org/bao-bioportal/. 
